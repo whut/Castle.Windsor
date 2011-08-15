@@ -18,6 +18,7 @@ namespace Castle.MicroKernel.Tests
 	using Castle.MicroKernel.Handlers;
 	using Castle.MicroKernel.Registration;
 	using Castle.MicroKernel.Tests.ClassComponents;
+	using Castle.Windsor.Tests;
 
 	using NUnit.Framework;
 
@@ -187,6 +188,22 @@ namespace Castle.MicroKernel.Tests
 			kernel.Register(Component.For(typeof(DefaultTemplateEngine)).Named("templateengine"));
 
 			var spamservice = kernel.Resolve<DefaultSpamService>("spamservice");
+		}
+
+		[Test]
+		public void ResolvingWithNullCustomDependency_WillChooseConstructorWithThatArgumentAndPassNull()
+		{
+			kernel.Register(
+				Component.For<ServiceUser>()
+				.DependsOn(new
+				{
+					A = new A(),
+					B = (B)null
+				}));
+
+			var serviceUser = kernel.Resolve<ServiceUser>();
+			Assert.IsNotNull(serviceUser.AComponent);
+			Assert.IsNull(serviceUser.BComponent);
 		}
 	}
 }

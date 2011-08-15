@@ -79,9 +79,7 @@ namespace Castle.Windsor.Tests
 			public object Resolve(CreationContext context, ISubDependencyResolver contextHandlerResolver, ComponentModel model,
 			                      DependencyModel dependency)
 			{
-				return contextHandlerResolver.Resolve(context, contextHandlerResolver, model,
-				                                      new DependencyModel(DependencyType.Service, typeof(IBookStore).FullName,
-				                                                          typeof(IBookStore), false));
+				return null;
 			}
 
 			public bool CanResolve(CreationContext context, ISubDependencyResolver contextHandlerResolver, ComponentModel model,
@@ -106,8 +104,7 @@ namespace Castle.Windsor.Tests
 		}
 
 		[Test]
-		[ExpectedException(typeof(DependencyResolverException))]
-		public void UsingGoodResolver()
+		public void UsingGoodResolver_AllowNullAsResolvedDependency()
 		{
 			IWindsorContainer container = new WindsorContainer();
 			container.Kernel.Resolver.AddSubResolver(new GoodDependencyResolver());

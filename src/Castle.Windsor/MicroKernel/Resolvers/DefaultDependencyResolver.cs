@@ -246,9 +246,14 @@ namespace Castle.MicroKernel.Resolvers
 				{
 					value = ResolveParameterDependency(context, model, dependency);
 				}
+
+				if (value != null)
+				{
+					resolved = true;
+				}
 			}
 
-			if (value == null)
+			if (!resolved)
 			{
 				if (dependency.HasDefaultValue)
 				{
