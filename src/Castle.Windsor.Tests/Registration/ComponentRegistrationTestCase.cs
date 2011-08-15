@@ -427,9 +427,12 @@ namespace Castle.MicroKernel.Tests.Registration
 			Kernel.Register(
 				Component.For<ICustomer>()
 					.ImplementedBy<CustomerImpl>()
-					.DependsOn(Property.ForKey("Name").Eq("Caption Hook"),
-					           Property.ForKey("Address").Eq("Fairyland"),
-					           Property.ForKey("Age").Eq(45)));
+					.DependsOn(new
+					{
+						Name = "Caption Hook",
+						Address ="Fairyland",
+					    Age = 45
+					}));
 
 			var customer = Kernel.Resolve<ICustomer>();
 			Assert.AreEqual(customer.Name, "Caption Hook");
@@ -456,7 +459,7 @@ namespace Castle.MicroKernel.Tests.Registration
 			Assert.AreEqual(customer.Address, "Fairyland");
 			Assert.AreEqual(customer.Age, 45);
 		}
-		
+
 		[Test]
 		public void AddComponent_ArrayConfigurationParameters_WorksFine()
 		{
